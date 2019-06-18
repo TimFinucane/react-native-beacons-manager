@@ -1,12 +1,12 @@
 ### Version
-1.0.1
+1.1.0
 
 ### Platform
 iOS | Android
 
 ### OS version
 
-iOS 10| android 7.0...
+iOS 10 | android 7.0...
 
 ### Steps to reproduce
 1.  

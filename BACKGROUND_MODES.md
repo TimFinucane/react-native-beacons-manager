@@ -2,7 +2,6 @@
 
 ## iOS background mode
 
-
 In the Xcode project:
 
 **Project settings:**
@@ -22,8 +21,8 @@ You need `Always authorization` (`WhenInUse` is clearly not enough):
 - add `Privacy - Location Always Usage Description` key defined (*empty value or not. It is better to define a value to a custom / more user-friendly message*).
 ![ios: request when in use authorization](./images/plistRequireAlwaysUseAutorization.png)
 
+**In your js code:**
 
-**In your js code**
 Use the method `requestAlwaysAuthorization`.
 ```javascript
 Beacons.requestAlwaysAuthorization();
@@ -31,7 +30,7 @@ Beacons.requestAlwaysAuthorization();
 
 Finally when killed or sleeping and a beacon is found your whole app wont be loaded.
 
-So do the tasks (that does not long last since iOS won't let it run more than few seconds):
+So do the tasks (that cannot last long since iOS won't let it run more than few seconds):
 ```javascript
 // monitoring:
  DeviceEventEmitter.addListener(
@@ -57,7 +56,6 @@ So do the tasks (that does not long last since iOS won't let it run more than fe
  );
 
 ```
-
 
 ## Android background mode
 

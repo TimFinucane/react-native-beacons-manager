@@ -1,7 +1,7 @@
 {
   "name": "react-native-beacons-manager",
   "version": "1.1.0",
-  "description": "React-Native library for detecting beacons (iOS and Android)",
+  "description": "React-Native library for mobile bluetooth beacon support - specifically iBeacon, Eddystone, and Estimote",
   "keywords": [
     "react-native",
     "react-component",

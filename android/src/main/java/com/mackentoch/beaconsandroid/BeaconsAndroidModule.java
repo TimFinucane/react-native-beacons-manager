@@ -3,7 +3,6 @@ package com.mackentoch.beaconsandroid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -67,14 +66,14 @@ public class BeaconsAndroidModule extends ReactContextBaseJavaModule implements 
     constants.put("NOT_SUPPORTED_BLE", BeaconTransmitter.NOT_SUPPORTED_BLE);
     constants.put("NOT_SUPPORTED_CANNOT_GET_ADVERTISER_MULTIPLE_ADVERTISEMENTS", BeaconTransmitter.NOT_SUPPORTED_CANNOT_GET_ADVERTISER_MULTIPLE_ADVERTISEMENTS);
     constants.put("NOT_SUPPORTED_CANNOT_GET_ADVERTISER", BeaconTransmitter.NOT_SUPPORTED_CANNOT_GET_ADVERTISER);
-    constants.put("RUNNING_AVG_RSSI_FILTER",RUNNING_AVG_RSSI_FILTER);
-    constants.put("ARMA_RSSI_FILTER",ARMA_RSSI_FILTER);
+    constants.put("RUNNING_AVG_RSSI_FILTER", RUNNING_AVG_RSSI_FILTER);
+    constants.put("ARMA_RSSI_FILTER", ARMA_RSSI_FILTER);
     return constants;
   }
 
   @ReactMethod
   public void setHardwareEqualityEnforced(Boolean e) {
-    Beacon.setHardwareEqualityEnforced(e.booleanValue());
+    Beacon.setHardwareEqualityEnforced(e);
   }
 
   public void bindManager() {
@@ -273,32 +272,6 @@ public class BeaconsAndroidModule extends ReactContextBaseJavaModule implements 
       }
   }
 
-  private MonitorNotifier mMonitorNotifier = new MonitorNotifier() {
-      @Override
-      public void didEnterRegion(Region region) {
-          sendEvent(mReactContext, "regionDidEnter", createMonitoringResponse(region));
-      }
-
-      @Override
-      public void didExitRegion(Region region) {
-          sendEvent(mReactContext, "regionDidExit", createMonitoringResponse(region));
-      }
-
-      @Override
-      public void didDetermineStateForRegion(int i, Region region) {
-
-      }
-  };
-
-  private WritableMap createMonitoringResponse(Region region) {
-      WritableMap map = new WritableNativeMap();
-      map.putString("identifier", region.getUniqueId());
-      map.putString("uuid", region.getId1() != null ? region.getId1().toString() : "");
-      map.putInt("major", region.getId2() != null ? region.getId2().toInt() : 0);
-      map.putInt("minor", region.getId3() != null ? region.getId3().toInt() : 0);
-      return map;
-  }
-
   @ReactMethod
   public void stopMonitoring(String regionId, String beaconUuid, int minor, int major, Callback resolve, Callback reject) {
       Region region = createRegion(
@@ -333,6 +306,43 @@ public class BeaconsAndroidModule extends ReactContextBaseJavaModule implements 
           Log.e(LOG_TAG, "startRanging, error: ", e);
           reject.invoke(e.getMessage());
       }
+  }
+
+  @ReactMethod
+  public void stopRanging(String regionId, String beaconUuid, Callback resolve, Callback reject) {
+    Region region = createRegion(regionId, beaconUuid);
+    try {
+      mBeaconManager.stopRangingBeaconsInRegion(region);
+      resolve.invoke();
+    } catch (Exception e) {
+      Log.e(LOG_TAG, "stopRanging, error: ", e);
+      reject.invoke(e.getMessage());
+    }
+  }
+
+  private MonitorNotifier mMonitorNotifier = new MonitorNotifier() {
+    @Override
+    public void didEnterRegion(Region region) {
+      sendEvent(mReactContext, "regionDidEnter", createMonitoringResponse(region));
+    }
+
+    @Override
+    public void didExitRegion(Region region) {
+      sendEvent(mReactContext, "regionDidExit", createMonitoringResponse(region));
+    }
+
+    // TODO: These should probably be passed up?
+    @Override
+    public void didDetermineStateForRegion(int i, Region region) {}
+  };
+
+  private WritableMap createMonitoringResponse(Region region) {
+    WritableMap map = new WritableNativeMap();
+    map.putString("identifier", region.getUniqueId());
+    map.putString("uuid", region.getId1() != null ? region.getId1().toString() : "");
+    map.putInt("major", region.getId2() != null ? region.getId2().toInt() : 0);
+    map.putInt("minor", region.getId3() != null ? region.getId3().toInt() : 0);
+    return map;
   }
 
   private RangeNotifier mRangeNotifier = new RangeNotifier() {
@@ -384,19 +394,6 @@ public class BeaconsAndroidModule extends ReactContextBaseJavaModule implements 
           return "far";
       }
   }
-
-  @ReactMethod
-  public void stopRanging(String regionId, String beaconUuid, Callback resolve, Callback reject) {
-      Region region = createRegion(regionId, beaconUuid);
-      try {
-          mBeaconManager.stopRangingBeaconsInRegion(region);
-          resolve.invoke();
-      } catch (Exception e) {
-          Log.e(LOG_TAG, "stopRanging, error: ", e);
-          reject.invoke(e.getMessage());
-      }
-  }
-
 
   /***********************************************************************************************
    * Utils

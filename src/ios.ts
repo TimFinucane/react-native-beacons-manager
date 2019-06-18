@@ -1,4 +1,4 @@
-import * as RN from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native';
 
 import {
   BeaconRegion,
@@ -6,14 +6,14 @@ import {
   BeaconsManagerIOS,
 } from './types';
 
-const BeaconsManager: BeaconsManagerIOS = RN.NativeModules.RNiBeacon;
-const BeaconsEventEmitter = new RN.NativeEventEmitter(BeaconsManager);
+const BeaconsManager: BeaconsManagerIOS = NativeModules.RNiBeacon;
+const BeaconsEventEmitter = new NativeEventEmitter(BeaconsManager);
 
 /**
  * request always authorization (mandatory when ranging beacons but energy drain)
  * IMPORTANT: To be effective your info.plist file should have 'Privacy - Location Always Usage Description' key defined
  */
-function requestAlwaysAuthorization(): void {
+function requestAlwaysAuthorization() {
   BeaconsManager.requestAlwaysAuthorization();
 }
 
@@ -22,7 +22,7 @@ function requestAlwaysAuthorization(): void {
  * IMPORTANT: To be effective your info.plist file should have 'Privacy - Location When In Use Usage Description'
  * key defined (hopefully 'react-native init' should have set it for you)
  */
-function requestWhenInUseAuthorization(): void {
+function requestWhenInUseAuthorization() {
   BeaconsManager.requestWhenInUseAuthorization();
 }
 
@@ -31,7 +31,7 @@ function requestWhenInUseAuthorization(): void {
  *
  * @param {boolean} [allow=false] allow or disallow background modes
  */
-function allowsBackgroundLocationUpdates(allow: boolean = false): void {
+function allowsBackgroundLocationUpdates(allow: boolean = false) {
   BeaconsManager.allowsBackgroundLocationUpdates(allow);
 }
 
@@ -40,9 +40,7 @@ function allowsBackgroundLocationUpdates(allow: boolean = false): void {
  *
  * @returns {() => AuthorizationStatus} instant callback (not async)
  */
-function getAuthorizationStatus(
-  callback: (status: AuthorizationStatus) => any
-): any {
+function getAuthorizationStatus(callback: (status: AuthorizationStatus) => void) {
   return BeaconsManager.getAuthorizationStatus(callback);
 }
 
@@ -51,17 +49,15 @@ function getAuthorizationStatus(
  *
  * @returns {Promise<Array<BeaconRegion>>} promise resolve to an array of monitored regions
  */
-function getMonitoredRegions(): Promise<BeaconRegion[]> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.getMonitoredRegions(resolve);
-  });
+function getMonitoredRegions() {
+  return new Promise<BeaconRegion[]>(resolve => BeaconsManager.getMonitoredRegions(resolve));
 }
 
 /**
  * call is needed for monitoring beacons and gets the initial position of the device.
  *
  */
-function startUpdatingLocation(): void {
+function startUpdatingLocation() {
   BeaconsManager.startUpdatingLocation();
 }
 
@@ -69,11 +65,11 @@ function startUpdatingLocation(): void {
  * This method should be called when you don't need to receive location-based information and want to save battery power.
  *
  */
-function stopUpdatingLocation(): void {
+function stopUpdatingLocation() {
   BeaconsManager.stopUpdatingLocation();
 }
 
-function shouldDropEmptyRanges(drop: boolean): void {
+function shouldDropEmptyRanges(drop: boolean) {
   BeaconsManager.shouldDropEmptyRanges(drop);
 }
 
@@ -83,8 +79,8 @@ function shouldDropEmptyRanges(drop: boolean): void {
  * @param {BeaconRegion} region region to monitor (identifier + uuid -> major and minor are optional)
  * @returns {Promise<any>} promise resolves to void or error
  */
-function startMonitoringForRegion(region: BeaconRegion): Promise<any> {
-  return new Promise((resolve, reject) => {
+function startMonitoringForRegion(region: BeaconRegion) {
+  return new Promise<void>((resolve, reject) => {
     try {
       BeaconsManager.startMonitoringForRegion(region);
       resolve();
@@ -101,8 +97,8 @@ function startMonitoringForRegion(region: BeaconRegion): Promise<any> {
  * @param {BeaconRegion} region region (identifier + uuid -> major and minor are optional)
  * @returns {Promise<any>} promise resolves to void or error
  */
-function stopMonitoringForRegion(region: BeaconRegion): Promise<any> {
-  return new Promise((resolve, reject) => {
+function stopMonitoringForRegion(region: BeaconRegion) {
+  return new Promise<void | Error>((resolve, reject) => {
     try {
       BeaconsManager.stopMonitoringForRegion(region);
       resolve();
@@ -119,8 +115,8 @@ function stopMonitoringForRegion(region: BeaconRegion): Promise<any> {
  * @param {BeaconRegion} region region to scan (identifier + uuid -> major and minor are optional)
  * @returns {Promise<any>} promise resolves to void or error
  */
-function startRangingBeaconsInRegion(region: BeaconRegion): Promise<any> {
-  return new Promise((resolve, reject) => {
+function startRangingBeaconsInRegion(region: BeaconRegion) {
+  return new Promise<void | Error>((resolve, reject) => {
     try {
       BeaconsManager.startRangingBeaconsInRegion(region);
       resolve();
@@ -137,8 +133,8 @@ function startRangingBeaconsInRegion(region: BeaconRegion): Promise<any> {
  * @param {BeaconRegion} region region (identifier + uuid -> major and minor are optional)
  * @returns {Promise<any>} promise: resolves to void when successful
  */
-function stopRangingBeaconsInRegion(region: BeaconRegion): Promise<any> {
-  return new Promise((resolve, reject) => {
+function stopRangingBeaconsInRegion(region: BeaconRegion) {
+  return new Promise<void | Error>((resolve, reject) => {
     try {
       BeaconsManager.stopRangingBeaconsInRegion(region);
       resolve();

@@ -1,4 +1,4 @@
-import * as RN from 'react-native';
+import { DeviceEventEmitter, NativeModules } from 'react-native';
 
 import {
   BeaconRegion,
@@ -14,15 +14,14 @@ import {
 } from './types';
 
 // #region instanciation and constants
-const BeaconsManager: BeaconsManagerANDROID =
-  RN.NativeModules.BeaconsAndroidModule;
-const BeaconsEventEmitter = RN.DeviceEventEmitter;
+const BeaconsManager: BeaconsManagerANDROID = NativeModules.BeaconsAndroidModule;
+const BeaconsEventEmitter = new DeviceEventEmitter();
 
 const ARMA_RSSI_FILTER = BeaconsManager.ARMA_RSSI_FILTER;
 const RUNNING_AVG_RSSI_FILTER = BeaconsManager.RUNNING_AVG_RSSI_FILTER;
 // #endregion
 
-function setHardwareEqualityEnforced(flag: boolean): void {
+function setHardwareEqualityEnforced(flag: boolean) {
   BeaconsManager.setHardwareEqualityEnforced(flag);
 }
 
@@ -31,10 +30,8 @@ function setHardwareEqualityEnforced(flag: boolean): void {
  * set beacon layout for iBeacon
  *
  */
-function detectIBeacons(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_IBEACON, resolve, reject);
-  });
+function detectIBeacons() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(PARSER_IBEACON, resolve, reject));
 }
 
 /**
@@ -42,20 +39,16 @@ function detectIBeacons(): Promise<any> {
  * adds iBeacon parser to detect them
  *
  */
-function addIBeaconsDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_IBEACON, resolve, reject);
-  });
+function addIBeaconsDetection() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(PARSER_IBEACON, resolve, reject));
 }
 
 /**
  * removes iBeacon parser to stop detecting them
  *
  */
-function removeIBeaconsDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.removeParser(PARSER_IBEACON, resolve, reject);
-  });
+function removeIBeaconsDetection() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.removeParser(PARSER_IBEACON, resolve, reject));
 }
 // #enregion
 
@@ -64,22 +57,16 @@ function removeIBeaconsDetection(): Promise<any> {
  * set beacon layout for alBeacon
  *
  */
-function detectAltBeacons(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_ALTBEACON, resolve, reject);
-  });
+function detectAltBeacons() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(PARSER_ALTBEACON, resolve, reject));
 }
 
-function addAltBeaconsDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_ALTBEACON, resolve, reject);
-  });
+function addAltBeaconsDetection() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(PARSER_ALTBEACON, resolve, reject));
 }
 
-function removeAltBeaconsDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.removeParser(PARSER_ALTBEACON, resolve, reject);
-  });
+function removeAltBeaconsDetection() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.removeParser(PARSER_ALTBEACON, resolve, reject));
 }
 // #endregion
 
@@ -88,22 +75,16 @@ function removeAltBeaconsDetection(): Promise<any> {
  * set beacon layout for estimote
  *
  */
-function detectEstimotes(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_ESTIMOTE, resolve, reject);
-  });
+function detectEstimotes() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(PARSER_ESTIMOTE, resolve, reject));
 }
 
-function addEstimotesDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_ESTIMOTE, resolve, reject);
-  });
+function addEstimotesDetection() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(PARSER_ESTIMOTE, resolve, reject));
 }
 
-function removeEstimotesDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.removeParser(PARSER_ESTIMOTE, resolve, reject);
-  });
+function removeEstimotesDetection() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.removeParser(PARSER_ESTIMOTE, resolve, reject));
 }
 // #endregion
 
@@ -112,10 +93,8 @@ function removeEstimotesDetection(): Promise<any> {
  * set beacon layout for eddystone UID
  *
  */
-function detectEddystoneUID(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_EDDYSTONE_UID, resolve, reject);
-  });
+function detectEddystoneUID() {
+  return new Promise<void>((resolve, reject) => BeaconsManager.addParser(PARSER_EDDYSTONE_UID, resolve, reject));
 }
 
 /**
@@ -123,20 +102,16 @@ function detectEddystoneUID(): Promise<any> {
  * adds EddystoneUID parser to detect them
  *
  */
-function addEddystoneUIDDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_EDDYSTONE_UID, resolve, reject);
-  });
+function addEddystoneUIDDetection() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(PARSER_EDDYSTONE_UID, resolve, reject));
 }
 
 /**
  * removes EddystoneUID parser to stop detecting them
  *
  */
-function removeEddystoneUIDDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.removeParser(PARSER_EDDYSTONE_UID, resolve, reject);
-  });
+function removeEddystoneUIDDetection() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.removeParser(PARSER_EDDYSTONE_UID, resolve, reject));
 }
 // #endregion
 
@@ -145,22 +120,16 @@ function removeEddystoneUIDDetection(): Promise<any> {
  * set beacon layout for eddystone URL
  *
  */
-function detectEddystoneURL(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_EDDYSTONE_URL, resolve, reject);
-  });
+function detectEddystoneURL() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(PARSER_EDDYSTONE_URL, resolve, reject));
 }
 
-function addEddystoneURLDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_EDDYSTONE_URL, resolve, reject);
-  });
+function addEddystoneURLDetection() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(PARSER_EDDYSTONE_URL, resolve, reject));
 }
 
-function removeEddystoneURLDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.removeParser(PARSER_EDDYSTONE_URL, resolve, reject);
-  });
+function removeEddystoneURLDetection() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.removeParser(PARSER_EDDYSTONE_URL, resolve, reject));
 }
 // #endregion
 
@@ -170,21 +139,15 @@ function removeEddystoneURLDetection(): Promise<any> {
  *
  */
 function detectEddystoneTLM(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_EDDYSTONE_TLM, resolve, reject);
-  });
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(PARSER_EDDYSTONE_TLM, resolve, reject));
 }
 
 function addEddystoneTLMDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(PARSER_EDDYSTONE_TLM, resolve, reject);
-  });
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(PARSER_EDDYSTONE_TLM, resolve, reject));
 }
 
-function removeEddystoneTLMDetection(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.removeParser(PARSER_EDDYSTONE_TLM, resolve, reject);
-  });
+function removeEddystoneTLMDetection() {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.removeParser(PARSER_EDDYSTONE_TLM, resolve, reject));
 }
 // #endregion
 
@@ -193,59 +156,49 @@ function removeEddystoneTLMDetection(): Promise<any> {
  * set beacon for custom layout
  *
  */
-function detectCustomBeaconLayout(parser: number): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(parser, resolve, reject);
-  });
+function detectCustomBeaconLayout(parser: number) {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(parser, resolve, reject));
 }
 
-function addCustomBeaconLayoutDetection(parser: number): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParser(parser, resolve, reject);
-  });
+// Why is this exactly the same as the above method?
+function addCustomBeaconLayoutDetection(parser: number) {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParser(parser, resolve, reject));
 }
 
-function removeCustomBeaconLayoutDetection(parser: number): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.removeParser(parser, resolve, reject);
-  });
+function removeCustomBeaconLayoutDetection(parser: number) {
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.removeParser(parser, resolve, reject));
 }
 // #endregion
 
 // #region add remove multiple parsers in a row
 function addParsersListToDetection(parsers: Parser[]) {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.addParsersListToDetection(parsers, resolve, reject);
-  });
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.addParsersListToDetection(parsers, resolve, reject));
 }
 
 function removeParsersListToDetection(parsers: Parser[]) {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.removeParsersListToDetection(parsers, resolve, reject);
-  });
+  return new Promise<void | Error>((resolve, reject) => BeaconsManager.removeParsersListToDetection(parsers, resolve, reject));
 }
 // #endregion
 
-function setBackgroundScanPeriod(period: number): void {
+// TODO: Comment this section
+function setBackgroundScanPeriod(period: number) {
   BeaconsManager.setBackgroundScanPeriod(period);
 }
 
-function setBackgroundBetweenScanPeriod(period: number): void {
+function setBackgroundBetweenScanPeriod(period: number) {
   BeaconsManager.setBackgroundBetweenScanPeriod(period);
 }
 
-function setForegroundScanPeriod(period: number): void {
+function setForegroundScanPeriod(period: number) {
   BeaconsManager.setForegroundScanPeriod(period);
 }
 
-function setRssiFilter(filterType: number, avgModifier: number): void {
+function setRssiFilter(filterType: number, avgModifier: number) {
   BeaconsManager.setRssiFilter(filterType, avgModifier);
 }
 
-function getRangedRegions(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.getRangedRegions(resolve);
-  });
+function getRangedRegions() {
+  return new Promise<void>(resolve => BeaconsManager.getRangedRegions(resolve));
 }
 
 /**
@@ -254,9 +207,8 @@ function getRangedRegions(): Promise<any> {
  * @returns {Promise<Array<BeaconRegion>>} promise resolve to an array of monitored regions
  */
 function getMonitoredRegions(): Promise<BeaconRegion[]> {
-  return new Promise((resolve, reject) => {
-    BeaconsManager.getMonitoredRegions(resolve);
-  });
+  // TODO: Types are wrong for BeaconsManager.getMonitoredRegions
+  return new Promise<BeaconRegion[]>(resolve => BeaconsManager.getMonitoredRegions(resolve));
 }
 
 /**
@@ -265,7 +217,7 @@ function getMonitoredRegions(): Promise<BeaconRegion[]> {
  * @returns {Promise<number>} promise resolve to an integer
  */
 function checkTransmissionSupported(): Promise<number> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     BeaconsManager.checkTransmissionSupported((status: any) => // TODO: Figure these two out
       resolve(transmissionSupport[status] as any)
     );
@@ -278,8 +230,8 @@ function checkTransmissionSupported(): Promise<number> {
  * @param {Object: BeaconRegion} region region to monitor (identifier + uuid -> major and minor are optional)
  * @returns {Promise<any>} promise resolves to void or error
  */
-function startMonitoringForRegion(region: BeaconRegion): Promise<any> {
-  return new Promise((resolve, reject) => {
+function startMonitoringForRegion(region: BeaconRegion) {
+  return new Promise<void | Error>((resolve, reject) =>
     // NOTE: major and minor are optional values: if user don't assign them we have to send a null value (not undefined):
     BeaconsManager.startMonitoring(
       region.identifier,
@@ -288,8 +240,7 @@ function startMonitoringForRegion(region: BeaconRegion): Promise<any> {
       region.major ? region.major : -1,
       resolve,
       reject
-    );
-  });
+    ));
 }
 
 /**
@@ -298,17 +249,16 @@ function startMonitoringForRegion(region: BeaconRegion): Promise<any> {
  * @param {BeaconRegion} region region (see BeaconRegion type)
  * @returns {Promise<any>} promise resolves to void or error
  */
-function stopMonitoringForRegion(region: BeaconRegion): Promise<any> {
-  return new Promise((resolve, reject) => {
+function stopMonitoringForRegion(region: BeaconRegion) {
+  return new Promise<void | Error>((resolve, reject) =>
     BeaconsManager.stopMonitoring(
       region.identifier,
       region.uuid,
-      region.minor ? region.minor : -1,
+      region.minor ? region.minor : -1, // TODO: This will likely result in a bug when major/minor are 0
       region.major ? region.major : -1,
       resolve,
       reject
-    );
-  });
+    ));
 }
 
 /**
@@ -318,25 +268,11 @@ function stopMonitoringForRegion(region: BeaconRegion): Promise<any> {
  * @param {String} [beaconsUUID] optional UUID
  * @returns {Promise<any>} promise resolves to void or error
  */
-function startRangingBeaconsInRegion(
-  region: BeaconRegion | string,
-  beaconsUUID?: string
-): Promise<any> {
-  if (typeof region === 'object') {
-    return new Promise((resolve, reject) => {
-      BeaconsManager.startRanging(
-        // $FlowIgnore
-        region.identifier,
-        // $FlowIgnore
-        region.uuid,
-        resolve,
-        reject
-      );
-    });
-  }
-  return new Promise((resolve, reject) => {
-    BeaconsManager.startRanging(region, beaconsUUID, resolve, reject);
-  });
+function startRangingBeaconsInRegion(region: BeaconRegion | string, beaconsUUID?: string) {
+  if (typeof region === 'object')
+    return new Promise<void | Error>((resolve, reject) => BeaconsManager.startRanging(region.identifier, region.uuid, resolve, reject));
+  else
+    return new Promise<void | Error>((resolve, reject) => BeaconsManager.startRanging(region, beaconsUUID, resolve, reject));
 }
 
 /**
@@ -344,25 +280,13 @@ function startRangingBeaconsInRegion(
  *
  * @param {String | BeaconRegion} regionId if string or region: BeaconRegion object
  * @param {string} beaconsUUID optional UUID within the specified region
- * @returns {Promise<any>} promise: resolves to void when successful
+ * @returns {Promise<void | Error>} resolves to void when successful
  */
-function stopRangingBeaconsInRegion(
-  region: BeaconRegion | string,
-  beaconsUUID?: string
-): Promise<any> {
-  if (typeof region === 'object') {
-    return new Promise((resolve, reject) => {
-      BeaconsManager.stopRanging(
-        region.identifier,
-        region.uuid,
-        resolve,
-        reject
-      );
-    });
-  }
-  return new Promise((resolve, reject) => {
-    BeaconsManager.stopRanging(region, beaconsUUID, resolve, reject);
-  });
+function stopRangingBeaconsInRegion(region: BeaconRegion | string, beaconsUUID?: string) {
+  if (typeof region === 'object')
+    return new Promise<void | Error>((resolve, reject) => BeaconsManager.stopRanging(region.identifier, region.uuid, resolve, reject));
+  else
+    return new Promise<void | Error>((resolve, reject) => BeaconsManager.stopRanging(region, beaconsUUID, resolve, reject));
 }
 
 export {

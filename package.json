@@ -18,15 +18,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MacKentoch/react-native-beacons-manager.git"
-  },
-  "typescript": {
-    "definition": "typings/react-native-beacons-manager.d.ts"
+    "url": "git+https://github.com/TimFinucane/react-native-beacons-manager.git"
   },
   "bugs": {
-    "url": "https://github.com/MacKentoch/react-native-beacons-manager/issues"
+    "url": "https://github.com/TimFinucane/react-native-beacons-manager/issues"
   },
-  "homepage": "https://github.com/MacKentoch/react-native-beacons-manager#readme",
+  "homepage": "https://github.com/TimFinucane/react-native-beacons-manager#readme",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": ["lib", "android", "ios", "ReactNativeBeaconsManager.podspec"],

@@ -1,12 +1,10 @@
-// @flow
-
-const RN = require('react-native');
+import * as RN from 'react-native';
 
 import {
-  type BeaconRegion,
-  type AuthorizationStatus,
-  type BeaconsManagerIOS,
-} from './module.types';
+  BeaconRegion,
+  AuthorizationStatus,
+  BeaconsManagerIOS,
+} from './types';
 
 const BeaconsManager: BeaconsManagerIOS = RN.NativeModules.RNiBeacon;
 const BeaconsEventEmitter = new RN.NativeEventEmitter(BeaconsManager);
@@ -21,7 +19,8 @@ function requestAlwaysAuthorization(): void {
 
 /**
  * request when app in use authorization (bare minimum for beacons)
- * IMPORTANT: To be effective your info.plist file should have 'Privacy - Location When In Use Usage Description' key defined (hopefully 'react-native init' should have set it for you)
+ * IMPORTANT: To be effective your info.plist file should have 'Privacy - Location When In Use Usage Description'
+ * key defined (hopefully 'react-native init' should have set it for you)
  */
 function requestWhenInUseAuthorization(): void {
   BeaconsManager.requestWhenInUseAuthorization();
@@ -42,7 +41,7 @@ function allowsBackgroundLocationUpdates(allow: boolean = false): void {
  * @returns {() => AuthorizationStatus} instant callback (not async)
  */
 function getAuthorizationStatus(
-  callback: (status: AuthorizationStatus) => any,
+  callback: (status: AuthorizationStatus) => any
 ): any {
   return BeaconsManager.getAuthorizationStatus(callback);
 }
@@ -52,7 +51,7 @@ function getAuthorizationStatus(
  *
  * @returns {Promise<Array<BeaconRegion>>} promise resolve to an array of monitored regions
  */
-function getMonitoredRegions(): Promise<Array<BeaconRegion>> {
+function getMonitoredRegions(): Promise<BeaconRegion[]> {
   return new Promise((resolve, reject) => {
     BeaconsManager.getMonitoredRegions(resolve);
   });
@@ -89,7 +88,8 @@ function startMonitoringForRegion(region: BeaconRegion): Promise<any> {
     try {
       BeaconsManager.startMonitoringForRegion(region);
       resolve();
-    } catch (error) {
+    }
+    catch (error) {
       reject(error);
     }
   });
@@ -106,7 +106,8 @@ function stopMonitoringForRegion(region: BeaconRegion): Promise<any> {
     try {
       BeaconsManager.stopMonitoringForRegion(region);
       resolve();
-    } catch (error) {
+    }
+    catch (error) {
       reject(error);
     }
   });
@@ -123,7 +124,8 @@ function startRangingBeaconsInRegion(region: BeaconRegion): Promise<any> {
     try {
       BeaconsManager.startRangingBeaconsInRegion(region);
       resolve();
-    } catch (error) {
+    }
+    catch (error) {
       reject(error);
     }
   });
@@ -140,13 +142,14 @@ function stopRangingBeaconsInRegion(region: BeaconRegion): Promise<any> {
     try {
       BeaconsManager.stopRangingBeaconsInRegion(region);
       resolve();
-    } catch (error) {
+    }
+    catch (error) {
       reject(error);
     }
   });
 }
 
-module.exports = {
+export {
   BeaconsEventEmitter,
 
   requestAlwaysAuthorization,

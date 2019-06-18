@@ -36,7 +36,9 @@ npm-debug.log
 Pods/
 AirMapsExplorer.xcworkspace/
 
-
 # yarn
 yarn.lock
 yarn-error.log
+
+# Compiled results
+/lib

@@ -1,14 +1,9 @@
-// @flow
-
-// #region imports
-const RN = require('react-native');
+import * as RN from 'react-native';
 
 import {
-  type BeaconRegion,
-  type BeaconsManagerANDROID,
-  type Parser,
-} from './module.types';
-import {
+  BeaconRegion,
+  BeaconsManagerANDROID,
+  Parser,
   PARSER_IBEACON,
   PARSER_ESTIMOTE,
   PARSER_ALTBEACON,
@@ -16,8 +11,7 @@ import {
   PARSER_EDDYSTONE_UID,
   PARSER_EDDYSTONE_URL,
   transmissionSupport,
-} from './module.types';
-// #endregion
+} from './types';
 
 // #region instanciation and constants
 const BeaconsManager: BeaconsManagerANDROID =
@@ -219,13 +213,13 @@ function removeCustomBeaconLayoutDetection(parser: number): Promise<any> {
 // #endregion
 
 // #region add remove multiple parsers in a row
-function addParsersListToDetection(parsers: Array<Parser>) {
+function addParsersListToDetection(parsers: Parser[]) {
   return new Promise((resolve, reject) => {
     BeaconsManager.addParsersListToDetection(parsers, resolve, reject);
   });
 }
 
-function removeParsersListToDetection(parsers: Array<Parser>) {
+function removeParsersListToDetection(parsers: Parser[]) {
   return new Promise((resolve, reject) => {
     BeaconsManager.removeParsersListToDetection(parsers, resolve, reject);
   });
@@ -259,7 +253,7 @@ function getRangedRegions(): Promise<any> {
  *
  * @returns {Promise<Array<BeaconRegion>>} promise resolve to an array of monitored regions
  */
-function getMonitoredRegions(): Promise<Array<BeaconRegion>> {
+function getMonitoredRegions(): Promise<BeaconRegion[]> {
   return new Promise((resolve, reject) => {
     BeaconsManager.getMonitoredRegions(resolve);
   });
@@ -272,8 +266,8 @@ function getMonitoredRegions(): Promise<Array<BeaconRegion>> {
  */
 function checkTransmissionSupported(): Promise<number> {
   return new Promise((resolve, reject) => {
-    BeaconsManager.checkTransmissionSupported(status =>
-      resolve(transmissionSupport[status]),
+    BeaconsManager.checkTransmissionSupported((status: any) => // TODO: Figure these two out
+      resolve(transmissionSupport[status] as any)
     );
   });
 }
@@ -293,7 +287,7 @@ function startMonitoringForRegion(region: BeaconRegion): Promise<any> {
       region.minor ? region.minor : -1,
       region.major ? region.major : -1,
       resolve,
-      reject,
+      reject
     );
   });
 }
@@ -312,7 +306,7 @@ function stopMonitoringForRegion(region: BeaconRegion): Promise<any> {
       region.minor ? region.minor : -1,
       region.major ? region.major : -1,
       resolve,
-      reject,
+      reject
     );
   });
 }
@@ -326,7 +320,7 @@ function stopMonitoringForRegion(region: BeaconRegion): Promise<any> {
  */
 function startRangingBeaconsInRegion(
   region: BeaconRegion | string,
-  beaconsUUID?: string,
+  beaconsUUID?: string
 ): Promise<any> {
   if (typeof region === 'object') {
     return new Promise((resolve, reject) => {
@@ -336,7 +330,7 @@ function startRangingBeaconsInRegion(
         // $FlowIgnore
         region.uuid,
         resolve,
-        reject,
+        reject
       );
     });
   }
@@ -354,27 +348,24 @@ function startRangingBeaconsInRegion(
  */
 function stopRangingBeaconsInRegion(
   region: BeaconRegion | string,
-  beaconsUUID?: string,
+  beaconsUUID?: string
 ): Promise<any> {
   if (typeof region === 'object') {
     return new Promise((resolve, reject) => {
       BeaconsManager.stopRanging(
-        // $FlowIgnore
         region.identifier,
-        // $FlowIgnore
         region.uuid,
         resolve,
-        reject,
+        reject
       );
     });
   }
   return new Promise((resolve, reject) => {
-    // $FlowIgnore
     BeaconsManager.stopRanging(region, beaconsUUID, resolve, reject);
   });
 }
 
-module.exports = {
+export {
   // parsers constants
   PARSER_IBEACON,
   PARSER_ESTIMOTE,

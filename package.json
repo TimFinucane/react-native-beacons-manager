@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/MacKentoch/react-native-beacons-manager#readme",
   "main": "index.js",
+  "files": ["lib/**/*.ts"],
   "directories": {
     "example": "examples"
   },
@@ -39,26 +40,22 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "flow": "node_modules/.bin/flow",
-    "flow-typed": "node_modules/.bin/flow-typed"
+    "lint": "tslint src/*.ts"
   },
   "author": "Erwan DATIN (http://www.erwan-datin.com)",
   "license": "MIT",
   "nativePackage": true,
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-eslint": "^7.2.3",
-    "eslint": "^4.4.1",
-    "eslint-plugin-flowtype": "^2.35.0",
-    "eslint-plugin-react": "^7.2.0",
-    "eslint-plugin-react-native": "^3.0.1",
-    "flow-bin": "^0.85.0",
-    "prop-types": "^15.5.10",
+    "@types/react-native": "^0.57.63",
     "react": "^15.4.2",
-    "react-native": "^0.41.2"
+    "react-native": "^0.41.2",
+    "tslint": "^5.17.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.5.2"
   },
   "peerDependencies": {
     "react": ">=15.4.2",
     "react-native": ">=0.41.2"
-  }
+  },
+  "dependencies": {}
 }

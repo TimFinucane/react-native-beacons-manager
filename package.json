@@ -23,13 +23,13 @@
   "typescript": {
     "definition": "typings/react-native-beacons-manager.d.ts"
   },
-  "types": "typings/react-native-beacons-manager.d.ts",
   "bugs": {
     "url": "https://github.com/MacKentoch/react-native-beacons-manager/issues"
   },
   "homepage": "https://github.com/MacKentoch/react-native-beacons-manager#readme",
-  "main": "index.js",
-  "files": ["lib/**/*.ts"],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": ["lib", "android", "ios", "ReactNativeBeaconsManager.podspec"],
   "directories": {
     "example": "examples"
   },

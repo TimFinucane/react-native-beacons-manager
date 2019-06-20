@@ -36,4 +36,4 @@ npm-debug.log
 yarn-error.log
 
 # Compiled results
-/lib
+# TODO: Remove once on npm /lib

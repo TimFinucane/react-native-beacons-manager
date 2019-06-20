@@ -51,40 +51,32 @@ export type Parser = string | number;
 
 export interface BeaconsManagerIOS extends EventSubscriptionVendor {
   // specific to iOS:
-  requestAlwaysAuthorization: () => void;
-  requestWhenInUseAuthorization: () => void;
-  allowsBackgroundLocationUpdates: (allow: boolean) => void;
-  getAuthorizationStatus: (cb: GetAuthorizationCallback) => void;
-  getMonitoredRegions: (value?: any) => void;
-  startUpdatingLocation: () => void;
-  stopUpdatingLocation: () => void;
-  shouldDropEmptyRanges: (drop: boolean) => void;
+  requestAlwaysAuthorization(): void;
+  requestWhenInUseAuthorization(): void;
+  allowsBackgroundLocationUpdates(allow: boolean): void;
+  getAuthorizationStatus(cb: GetAuthorizationCallback): void;
+  getMonitoredRegions(value?: any): void;
+  startUpdatingLocation(): void;
+  stopUpdatingLocation(): void;
+  shouldDropEmptyRanges(drop: boolean): void;
 
   // common with android:
-  startMonitoringForRegion: (region: BeaconRegion) => void;
-  startRangingBeaconsInRegion: (region: BeaconRegion) => void;
-  stopMonitoringForRegion: (region: BeaconRegion) => void;
-  stopRangingBeaconsInRegion: (region: BeaconRegion) => void;
+  startMonitoringForRegion(region: BeaconRegion): void;
+  startRangingBeaconsInRegion(region: BeaconRegion): void;
+  stopMonitoringForRegion(region: BeaconRegion): void;
+  stopRangingBeaconsInRegion(region: BeaconRegion): void;
 }
 
 export interface BeaconsManagerANDROID {
   // specific to android:
-  setHardwareEqualityEnforced: (flag: boolean) => void;
+  setHardwareEqualityEnforced(flag: boolean): void;
 
-  addParser: (parser: Parser, resolve: () => any, reject: () => any) => void;
-  addParsersListToDetection: (
-    parsers: Parser[],
-    resolve: () => any,
-    reject: () => any
-  ) => void;
-  removeParser: (parser: Parser, resolve: () => any, reject: () => any) => void;
-  removeParsersListToDetection: (
-    parsers: Parser[],
-    resolve: () => any,
-    reject: () => any
-  ) => void;
+  addParser(parser: Parser, resolve: () => any, reject: () => any): void;
+  addParsersListToDetection(parsers: Parser[], resolve: () => any, reject: () => any): void;
+  removeParser(parser: Parser, resolve: () => any, reject: () => any): void;
+  removeParsersListToDetection(parsers: Parser[], resolve: () => any, reject: () => any): void;
 
-  // TODO: Remove [any]s
+  // TODO: These are part of the outgoing api, not the android native api!
   detectIBeacons: () => Promise<any>;
   addIBeaconsDetection: () => Promise<any>;
   removeIBeaconsDetection: () => Promise<any>;
@@ -124,35 +116,18 @@ export interface BeaconsManagerANDROID {
   checkTransmissionSupported: (status: any) => any;
 
   // common with iOS:
-  startMonitoring: (
-    regionId: string,
-    uuid: string,
-    minor: number | undefined,
-    major: number | undefined,
-    resolve: () => any,
-    reject: () => any
-  ) => void;
+  // TODO: This is not common as it has the promise resolve reject at the end. Make outward facing versions:
+  startMonitoring(
+    regionId: string, uuid: string,  minor: number | undefined, major: number | undefined,
+    resolve: () => any, reject: () => any
+  ): void;
 
-  startRanging: (
-    regionId: string,
-    uuid: string | undefined,
-    resolve: () => any,
-    reject: () => any
-  ) => void;
+  startRanging(regionId: string, uuid: string | undefined, resolve: () => any, reject: () => any): void;
 
-  stopMonitoring: (
-    regionId: string,
-    uuid: string,
-    minor: number | undefined,
-    major: number | undefined,
-    resolve: () => any,
-    reject: () => any
-  ) => void;
+  stopMonitoring(
+    regionId: string, uuid: string, minor: number | undefined, major: number | undefined,
+    resolve: () => any, reject: () => any
+  ): void;
 
-  stopRanging: (
-    regionId: string,
-    uuid: string | undefined,
-    resolve: () => any,
-    reject: () => any
-  ) => void;
+  stopRanging(regionId: string, uuid: string | undefined, resolve: () => any, reject: () => any): void;
 }

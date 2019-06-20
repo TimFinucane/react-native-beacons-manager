@@ -1,4 +1,4 @@
-import { DeviceEventEmitter, NativeModules } from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native';
 
 import {
   BeaconRegion,
@@ -15,7 +15,7 @@ import {
 
 // #region instanciation and constants
 const BeaconsManager: BeaconsManagerANDROID = NativeModules.BeaconsAndroidModule;
-const BeaconsEventEmitter = new DeviceEventEmitter();
+const BeaconsEventEmitter = new NativeEventEmitter();
 
 const ARMA_RSSI_FILTER = BeaconsManager.ARMA_RSSI_FILTER;
 const RUNNING_AVG_RSSI_FILTER = BeaconsManager.RUNNING_AVG_RSSI_FILTER;

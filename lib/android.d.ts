@@ -1,5 +1,5 @@
 import { BeaconRegion, Parser, PARSER_IBEACON, PARSER_ESTIMOTE, PARSER_ALTBEACON, PARSER_EDDYSTONE_TLM, PARSER_EDDYSTONE_UID, PARSER_EDDYSTONE_URL } from './types';
-declare const BeaconsEventEmitter: import("react-native").DeviceEventEmitterStatic;
+declare const BeaconsEventEmitter: import("react-native").EventEmitter;
 declare const ARMA_RSSI_FILTER: string;
 declare const RUNNING_AVG_RSSI_FILTER: string;
 declare function setHardwareEqualityEnforced(flag: boolean): void;
